@@ -107,8 +107,8 @@ printer.feed(3)
 printer.printImage(Image.open('gfx/logo-tatadada.png'), True)
 printer.feed(3)
 
-# printer.printImage(Image.open('gfx/ladybug.png'), True)
-# printer.feed(3)
+printer.printImage(Image.open('gfx/ladybug.png'), True)
+printer.feed(3)
 
 GPIO.output(ledPin, GPIO.LOW)
 
