@@ -97,7 +97,7 @@ except:
 	exit(0)
 
 # Print greeting image
-printer.printImage(Image.open('gfx/icon.png'), True)
+printer.printImage(Image.open('gfx/logo-tatadada.png'), True)
 printer.feed(3)
 GPIO.output(ledPin, GPIO.LOW)
 
