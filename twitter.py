@@ -35,14 +35,14 @@ from Adafruit_Thermal import *
 # Configurable globals.  Edit to your needs. -------------------------------
 
 # Twitter application credentials -- see notes above -- DO NOT SHARE.
-consumer_key    = 'PUT_YOUR_CONSUMER_KEY_HERE'
-consumer_secret = 'PUT_YOUR_CONSUMER_SECRET_HERE'
+consumer_key    = '8AhvHgTmNFKaGDmWIdsUw'
+consumer_secret = 'ok3SJ0sGNgpJwGOBUHNvuTQDqlD15pdD4xGLsqc'
 
 # queryString can be any valid Twitter API search string, including
 # boolean operators.  See http://dev.twitter.com/docs/using-search
 # for options and syntax.  Funny characters do NOT need to be URL
 # encoded here -- urllib takes care of that.
-queryString = 'from:Adafruit'
+queryString = 'from:TatadadaApps'
 
 
 # Other globals.  You probably won't need to change these. -----------------
