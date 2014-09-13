@@ -65,7 +65,7 @@ def daily():
     printer.boldOn()
     printer.println('Time to start a new day!!!')
     printer.boldOff()
-
+    printer.feed(3)
     GPIO.output(ledPin, GPIO.LOW)
 
 
