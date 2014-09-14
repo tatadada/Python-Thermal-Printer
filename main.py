@@ -16,8 +16,9 @@
 
 from __future__ import print_function
 import RPi.GPIO as GPIO
-import subprocess, time, Image, socket
+import subprocess, time, Image, socket, Popen, PIPE
 from Adafruit_Thermal import *
+
 
 ledPin = 18
 buttonPin = 23
@@ -27,16 +28,25 @@ nextInterval = 0.0  # Time of next recurring operation
 dailyFlag = False  # Set after daily trigger occurs
 lastId = '1'  # State information passed to/from interval script
 printer = Adafruit_Thermal("/dev/ttyAMA0", 19200, timeout=5)
+isPlayning = False
 
 
 # Called when button is briefly tapped.  Invokes time/temperature script.
 def tap():
     GPIO.output(ledPin, GPIO.HIGH)  # LED on while working
     # subprocess.call(["python", "timetemp.py"])
-    subprocess.call("mpc play", shell=True)
-    currentSong = subprocess.call("mpc current", shell=True)
-    printer.println(currentSong)
-    printer.feed(4)
+
+    if(isPlayning):
+        subprocess.call("mpc stop", shell=True)
+    else :
+        subprocess.call("mpc play", shell=True)
+        # currentSong = subprocess.call("mpc current", shell=True)
+        p = Popen(['program', 'arg1'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+        output, err = p.communicate(b"input data that is passed to subprocess' stdin")
+        currentSong = p.stdout
+        printer.println(currentSong)
+        printer.feed(4)
+
     GPIO.output(ledPin, GPIO.LOW)
 
 
