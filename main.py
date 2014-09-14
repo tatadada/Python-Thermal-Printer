@@ -32,7 +32,11 @@ printer = Adafruit_Thermal("/dev/ttyAMA0", 19200, timeout=5)
 # Called when button is briefly tapped.  Invokes time/temperature script.
 def tap():
     GPIO.output(ledPin, GPIO.HIGH)  # LED on while working
-    subprocess.call(["python", "timetemp.py"])
+    # subprocess.call(["python", "timetemp.py"])
+    subprocess.call("mpc play", shell=True)
+    currentSong = subprocess.call("mpc current", shell=True)
+    printer.println(currentSong)
+    printer.feed(4)
     GPIO.output(ledPin, GPIO.LOW)
 
 
