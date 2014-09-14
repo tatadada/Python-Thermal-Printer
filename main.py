@@ -18,6 +18,7 @@ from __future__ import print_function
 import RPi.GPIO as GPIO
 import subprocess, time, Image, socket
 from Adafruit_Thermal import *
+from subprocess import Popen, PIPE
 
 
 ledPin = 18
@@ -36,16 +37,16 @@ def tap(play):
     GPIO.output(ledPin, GPIO.HIGH)  # LED on while working
     # subprocess.call(["python", "timetemp.py"])
 
-    if(play):
+    if(play==False):
         subprocess.call("mpc stop", shell=True)
     else :
         subprocess.call("mpc play", shell=True)
-        # currentSong = subprocess.call("mpc current", shell=True)
-        p = Popen(['program', 'arg1'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
-        output, err = p.communicate(b"input data that is passed to subprocess' stdin")
-        currentSong = p.stdout
-        printer.println(currentSong)
-        printer.feed(4)
+        # # currentSong = subprocess.call("mpc current", shell=True)
+        # p = Popen(['program', 'arg1'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+        # output, err = p.communicate(b"input data that is passed to subprocess' stdin")
+        # currentSong = p.stdout
+        # printer.println(currentSong)
+        # printer.feed(4)
 
     GPIO.output(ledPin, GPIO.LOW)
 
@@ -154,7 +155,7 @@ while (True):
             # Yes.  Debounced press or release...
             if buttonState == True:  # Button released?
                 if tapEnable == True:  # Ignore if prior hold()
-                    if(isPlayning):
+                    if(isPlayning==True):
                         isPlayning =False
                     else:
                         isPlayning = True
@@ -163,6 +164,12 @@ while (True):
                     tap(isPlayning)  # Tap triggered (button released)
                     tapEnable = False  # Disable tap and hold
                     holdEnable = False
+
+                    if isPlayning == True:
+                        time.sleep(3)
+                        output,error = subprocess.Popen(['mpc', 'current'],stdout = subprocess.PIPE, stderr= subprocess.PIPE).communicate()
+                        print output
+
             else:  # Button pressed
                 tapEnable = True  # Enable tap and hold actions
                 holdEnable = True
