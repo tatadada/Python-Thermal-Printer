@@ -16,7 +16,7 @@
 
 from __future__ import print_function
 import RPi.GPIO as GPIO
-import subprocess, time, Image, socket, Popen, PIPE
+import subprocess, time, Image, socket
 from Adafruit_Thermal import *
 
 
@@ -32,11 +32,11 @@ isPlayning = False
 
 
 # Called when button is briefly tapped.  Invokes time/temperature script.
-def tap():
+def tap(play):
     GPIO.output(ledPin, GPIO.HIGH)  # LED on while working
     # subprocess.call(["python", "timetemp.py"])
 
-    if(isPlayning):
+    if(play):
         subprocess.call("mpc stop", shell=True)
     else :
         subprocess.call("mpc play", shell=True)
@@ -154,7 +154,13 @@ while (True):
             # Yes.  Debounced press or release...
             if buttonState == True:  # Button released?
                 if tapEnable == True:  # Ignore if prior hold()
-                    tap()  # Tap triggered (button released)
+                    if(isPlayning):
+                        isPlayning =False
+                    else:
+                        isPlayning = True
+
+
+                    tap(isPlayning)  # Tap triggered (button released)
                     tapEnable = False  # Disable tap and hold
                     holdEnable = False
             else:  # Button pressed
