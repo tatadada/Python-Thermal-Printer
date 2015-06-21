@@ -17,9 +17,9 @@
 from __future__ import print_function
 import RPi.GPIO as GPIO
 import subprocess, time, Image, socket
+import random
 from Adafruit_Thermal import *
 from subprocess import Popen, PIPE
-from random import *
 
 ledPin = 18
 buttonPin = 23
