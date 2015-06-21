@@ -19,6 +19,7 @@ import RPi.GPIO as GPIO
 import subprocess, time, Image, socket
 from Adafruit_Thermal import *
 from subprocess import Popen, PIPE
+from random import randint
 
 
 ledPin = 18
@@ -30,6 +31,7 @@ dailyFlag = False  # Set after daily trigger occurs
 lastId = '1'  # State information passed to/from interval script
 printer = Adafruit_Thermal("/dev/ttyAMA0", 19200, timeout=5)
 isPlayning = False
+
 
 
 # Called when button is briefly tapped.  Invokes time/temperature script.
@@ -155,20 +157,21 @@ while (True):
             # Yes.  Debounced press or release...
             if buttonState == True:  # Button released?
                 if tapEnable == True:  # Ignore if prior hold()
-                    if(isPlayning==True):
-                        isPlayning =False
-                    else:
-                        isPlayning = True
+                    print randint(0,9)
+                    # if(isPlayning==True):
+                    #     isPlayning =False
+                    # else:
+                    #     isPlayning = True
 
 
-                    tap(isPlayning)  # Tap triggered (button released)
-                    tapEnable = False  # Disable tap and hold
-                    holdEnable = False
-
-                    if isPlayning == True:
-                        time.sleep(3)
-                        output,error = subprocess.Popen(['mpc', 'current'],stdout = subprocess.PIPE, stderr= subprocess.PIPE).communicate()
-                        print output
+                    # tap(isPlayning)  # Tap triggered (button released)
+                    # tapEnable = False  # Disable tap and hold
+                    # holdEnable = False
+                    #
+                    # if isPlayning == True:
+                    #     time.sleep(3)
+                    #     output,error = subprocess.Popen(['mpc', 'current'],stdout = subprocess.PIPE, stderr= subprocess.PIPE).communicate()
+                    #     print output
 
             else:  # Button pressed
                 tapEnable = True  # Enable tap and hold actions
