@@ -15,11 +15,14 @@
 # http://www.adafruit.com/products/600 Printer starter pack
 
 from __future__ import print_function
+
 import RPi.GPIO as GPIO
-import subprocess, time, Image, socket
+import subprocess
+import time
+import Image
+import socket
 import random
 from Adafruit_Thermal import *
-from subprocess import Popen, PIPE
 
 ledPin = 18
 buttonPin = 23
@@ -38,9 +41,9 @@ def tap(play):
     GPIO.output(ledPin, GPIO.HIGH)  # LED on while working
     # subprocess.call(["python", "timetemp.py"])
 
-    if(play==False):
+    if (play == False):
         subprocess.call("mpc stop", shell=True)
-    else :
+    else:
         subprocess.call("mpc play", shell=True)
         # # currentSong = subprocess.call("mpc current", shell=True)
         # p = Popen(['program', 'arg1'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
@@ -65,11 +68,11 @@ def hold():
 # Called at periodic intervals (30 seconds by default).
 # Invokes twitter script.
 # def interval():
-    # GPIO.output(ledPin, GPIO.HIGH)
-    # # p = subprocess.Popen(["python", "twitter.py", str(lastId)],
-    #                      stdout=subprocess.PIPE)
-    # GPIO.output(ledPin, GPIO.LOW)
-    # return p.communicate()[0]  # Script pipes back lastId, returned to main
+# GPIO.output(ledPin, GPIO.HIGH)
+# # p = subprocess.Popen(["python", "twitter.py", str(lastId)],
+#                      stdout=subprocess.PIPE)
+# GPIO.output(ledPin, GPIO.LOW)
+# return p.communicate()[0]  # Script pipes back lastId, returned to main
 
 
 # Called once per day (6:30am by default).
@@ -83,7 +86,6 @@ def daily():
     printer.boldOff()
     printer.feed(3)
     GPIO.output(ledPin, GPIO.LOW)
-
 
 # Initialization
 
@@ -141,7 +143,7 @@ while (True):
     buttonState = GPIO.input(buttonPin)
     t = time.time()
 
-    output,error = subprocess.Popen(['mpc', 'current'],stdout = subprocess.PIPE, stderr= subprocess.PIPE).communicate()
+    output, error = subprocess.Popen(['mpc', 'current'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
     if currentSong != output:
         printer.println(output)
         printer.feed(4)
@@ -152,34 +154,35 @@ while (True):
         prevButtonState = buttonState  # Yes, save new state/time
         prevTime = t
     else:  # Button state unchanged
-        if (t - prevTime) >= holdTime:  # Button held more than 'holdTime'?
-            # Yes it has.  Is the hold action as-yet untriggered?
-            if holdEnable == True:  # Yep!
-                hold()  # Perform hold action (usu. shutdown)
-                holdEnable = False  # 1 shot...don't repeat hold action
-                tapEnable = False  # Don't do tap action on release
-        elif (t - prevTime) >= tapTime:  # Not holdTime.  tapTime elapsed?
-            # Yes.  Debounced press or release...
-            if buttonState == True:  # Button released?
-                if tapEnable == True:  # Ignore if prior hold()
-                    printer.print(random.randint(0,9))
-                    # if(isPlayning==True):
-                    #     isPlayning =False
-                    # else:
-                    #     isPlayning = True
+        # if (t - prevTime) >= holdTime:  # Button held more than 'holdTime'?
+        #     print "looooong"
+        #     # Yes it has.  Is the hold action as-yet untriggered?
+        #     # if holdEnable == True:  # Yep!
+        #     #     hold()  # Perform hold action (usu. shutdown)
+        #     #     holdEnable = False  # 1 shot...don't repeat hold action
+        #     #     tapEnable = False  # Don't do tap action on release
+        # elif (t - prevTime) >= tapTime:  # Not holdTime.  tapTime elapsed?
+        # Yes.  Debounced press or release...
+        if buttonState == True:  # Button released?
+            if tapEnable == True:  # Ignore if prior hold()
+                printer.print(random.randint(0, 9))
+                # if(isPlayning==True):
+                #     isPlayning =False
+                # else:
+                #     isPlayning = True
 
 
-                    # tap(isPlayning)  # Tap triggered (button released)
-                    # tapEnable = False  # Disable tap and hold
-                    # holdEnable = False
-                    #
-                    # if isPlayning == True:
-                    #     time.sleep(3)
-                    #     output,error = subprocess.Popen(['mpc', 'current'],stdout = subprocess.PIPE, stderr= subprocess.PIPE).communicate()
-                    #     print output
-            else:  # Button pressed
-                tapEnable = True  # Enable tap and hold actions
-                holdEnable = True
+                # tap(isPlayning)  # Tap triggered (button released)
+                # tapEnable = False  # Disable tap and hold
+                # holdEnable = False
+                #
+                # if isPlayning == True:
+                #     time.sleep(3)
+                #     output,error = subprocess.Popen(['mpc', 'current'],stdout = subprocess.PIPE, stderr= subprocess.PIPE).communicate()
+                #     print output
+        else:  # Button pressed
+            tapEnable = True  # Enable tap and hold actions
+            holdEnable = True
 
     # LED blinks while idle, for a brief interval every 2 seconds.
     # Pin 18 is PWM-capable and a "sleep throb" would be nice, but
@@ -208,4 +211,3 @@ while (True):
         # result = interval()
         # if result is not None:
         #     lastId = result.rstrip('\r\n')
-
