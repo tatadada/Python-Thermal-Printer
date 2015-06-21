@@ -125,8 +125,8 @@ except:
 printer.printImage(Image.open('gfx/logo-tatadada.png'), True)
 printer.feed(3)
 
-printer.printImage(Image.open('gfx/ladybug.png'), True)
-printer.feed(3)
+#printer.printImage(Image.open('gfx/ladybug.png'), True)
+#printer.feed(3)
 
 GPIO.output(ledPin, GPIO.LOW)
 
@@ -165,7 +165,8 @@ while (True):
         # Yes.  Debounced press or release...
         if buttonState == True:  # Button released?
             if tapEnable == True:  # Ignore if prior hold()
-                printer.print(random.randint(0, 9))
+                currentNumber = random.randint(0, 9)
+                printer.print("image" + str(currentNumber) + ".png")
                 # if(isPlayning==True):
                 #     isPlayning =False
                 # else:
