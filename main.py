@@ -16,9 +16,10 @@
 
 from __future__ import print_function
 import RPi.GPIO as GPIO
-import subprocess, time, Image, socket, random
+import subprocess, time, Image, socket
 from Adafruit_Thermal import *
 from subprocess import Popen, PIPE
+from random import *
 
 ledPin = 18
 buttonPin = 23
@@ -161,7 +162,7 @@ while (True):
             # Yes.  Debounced press or release...
             if buttonState == True:  # Button released?
                 if tapEnable == True:  # Ignore if prior hold()
-                    print random.randint(0,9)
+                    printer.print(random.randint(0,9))
                     # if(isPlayning==True):
                     #     isPlayning =False
                     # else:
