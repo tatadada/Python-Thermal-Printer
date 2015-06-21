@@ -19,6 +19,7 @@ import RPi.GPIO as GPIO
 import subprocess, time, Image, socket
 from Adafruit_Thermal import *
 from subprocess import Popen, PIPE
+from random import randint
 
 
 ledPin = 18
@@ -31,6 +32,7 @@ lastId = '1'  # State information passed to/from interval script
 printer = Adafruit_Thermal("/dev/ttyAMA0", 19200, timeout=5)
 isPlayning = False
 currentSong = ' '
+
 
 # Called when button is briefly tapped.  Invokes time/temperature script.
 def tap(play):
@@ -63,12 +65,12 @@ def hold():
 
 # Called at periodic intervals (30 seconds by default).
 # Invokes twitter script.
-def interval():
-    GPIO.output(ledPin, GPIO.HIGH)
-    p = subprocess.Popen(["python", "twitter.py", str(lastId)],
-                         stdout=subprocess.PIPE)
-    GPIO.output(ledPin, GPIO.LOW)
-    return p.communicate()[0]  # Script pipes back lastId, returned to main
+# def interval():
+    # GPIO.output(ledPin, GPIO.HIGH)
+    # # p = subprocess.Popen(["python", "twitter.py", str(lastId)],
+    #                      stdout=subprocess.PIPE)
+    # GPIO.output(ledPin, GPIO.LOW)
+    # return p.communicate()[0]  # Script pipes back lastId, returned to main
 
 
 # Called once per day (6:30am by default).
@@ -116,8 +118,8 @@ except:
     exit(0)
 
 # Print greeting image
-printer.printImage(Image.open('gfx/welcome.png'), True)
-printer.feed(3)
+# printer.printImage(Image.open('gfx/welcome.png'), True)
+# printer.feed(3)
 
 printer.printImage(Image.open('gfx/logo-tatadada.png'), True)
 printer.feed(3)
@@ -161,22 +163,21 @@ while (True):
             # Yes.  Debounced press or release...
             if buttonState == True:  # Button released?
                 if tapEnable == True:  # Ignore if prior hold()
-                    if(isPlayning==True):
-                        isPlayning =False
-                    else:
-                        isPlayning = True
+                    print randint(0,9)
+                    # if(isPlayning==True):
+                    #     isPlayning =False
+                    # else:
+                    #     isPlayning = True
 
 
-                    tap(isPlayning)  # Tap triggered (button released)
-                    tapEnable = False  # Disable tap and hold
-                    holdEnable = False
-
-                    if isPlayning == True:
-                        time.sleep(3)
-                        output,error = subprocess.Popen(['mpc', 'current'],stdout = subprocess.PIPE, stderr= subprocess.PIPE).communicate()
-                        printer.println(output)
-                        printer.feed(4)
-
+                    # tap(isPlayning)  # Tap triggered (button released)
+                    # tapEnable = False  # Disable tap and hold
+                    # holdEnable = False
+                    #
+                    # if isPlayning == True:
+                    #     time.sleep(3)
+                    #     output,error = subprocess.Popen(['mpc', 'current'],stdout = subprocess.PIPE, stderr= subprocess.PIPE).communicate()
+                    #     print output
             else:  # Button pressed
                 tapEnable = True  # Enable tap and hold actions
                 holdEnable = True
