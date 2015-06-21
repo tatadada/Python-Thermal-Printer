@@ -30,7 +30,7 @@ dailyFlag = False  # Set after daily trigger occurs
 lastId = '1'  # State information passed to/from interval script
 printer = Adafruit_Thermal("/dev/ttyAMA0", 19200, timeout=5)
 isPlayning = False
-
+currentSong = ' '
 
 # Called when button is briefly tapped.  Invokes time/temperature script.
 def tap(play):
@@ -140,6 +140,12 @@ while (True):
     buttonState = GPIO.input(buttonPin)
     t = time.time()
 
+    output,error = subprocess.Popen(['mpc', 'current'],stdout = subprocess.PIPE, stderr= subprocess.PIPE).communicate()
+    if currentSong != output:
+        printer.println(output)
+        printer.feed(4)
+        currentSong = output
+
     # Has button state changed?
     if buttonState != prevButtonState:
         prevButtonState = buttonState  # Yes, save new state/time
@@ -168,7 +174,8 @@ while (True):
                     if isPlayning == True:
                         time.sleep(3)
                         output,error = subprocess.Popen(['mpc', 'current'],stdout = subprocess.PIPE, stderr= subprocess.PIPE).communicate()
-                        print output
+                        printer.println(output)
+                        printer.feed(4)
 
             else:  # Button pressed
                 tapEnable = True  # Enable tap and hold actions
