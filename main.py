@@ -152,6 +152,8 @@ while (True):
     # Has button state changed?
     if buttonState != prevButtonState:
         prevButtonState = buttonState  # Yes, save new state/time
+        currentNumber = random.randint(0, 9)
+        printer.print("image" + str(currentNumber) + ".png")
         prevTime = t
     else:  # Button state unchanged
         # if (t - prevTime) >= holdTime:  # Button held more than 'holdTime'?
@@ -165,8 +167,8 @@ while (True):
         # Yes.  Debounced press or release...
         if buttonState == True:  # Button released?
             if tapEnable == True:  # Ignore if prior hold()
-                currentNumber = random.randint(0, 9)
-                printer.print("image" + str(currentNumber) + ".png")
+                # currentNumber = random.randint(0, 9)
+                # printer.print("image" + str(currentNumber) + ".png")
                 # if(isPlayning==True):
                 #     isPlayning =False
                 # else:
