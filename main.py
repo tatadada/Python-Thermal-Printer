@@ -63,12 +63,12 @@ def hold():
 
 # Called at periodic intervals (30 seconds by default).
 # Invokes twitter script.
-def interval():
-    GPIO.output(ledPin, GPIO.HIGH)
-    p = subprocess.Popen(["python", "twitter.py", str(lastId)],
-                         stdout=subprocess.PIPE)
-    GPIO.output(ledPin, GPIO.LOW)
-    return p.communicate()[0]  # Script pipes back lastId, returned to main
+# def interval():
+    # GPIO.output(ledPin, GPIO.HIGH)
+    # # p = subprocess.Popen(["python", "twitter.py", str(lastId)],
+    #                      stdout=subprocess.PIPE)
+    # GPIO.output(ledPin, GPIO.LOW)
+    # return p.communicate()[0]  # Script pipes back lastId, returned to main
 
 
 # Called once per day (6:30am by default).
@@ -116,8 +116,8 @@ except:
     exit(0)
 
 # Print greeting image
-printer.printImage(Image.open('gfx/welcome.png'), True)
-printer.feed(3)
+# printer.printImage(Image.open('gfx/welcome.png'), True)
+# printer.feed(3)
 
 printer.printImage(Image.open('gfx/logo-tatadada.png'), True)
 printer.feed(3)
