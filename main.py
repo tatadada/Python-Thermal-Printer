@@ -205,7 +205,7 @@ while (True):
     # import thing.
     if t > nextInterval:
         nextInterval = t + 30.0
-        result = interval()
-        if result is not None:
-            lastId = result.rstrip('\r\n')
+        # result = interval()
+        # if result is not None:
+        #     lastId = result.rstrip('\r\n')
 
