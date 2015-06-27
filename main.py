@@ -173,9 +173,12 @@ while (True):
                 # else:
                 #     isPlayning = True
 
-                currentNumber = random.randint(0, 9)
-                printer.print("image" + str(currentNumber) + ".png")
-                printer.feed(2)
+                currentNumber = random.randint(0, 8)
+                imageName = "image" + str(currentNumber) + ".png"
+                printer.print(imageName)
+                printer.feed(3)
+                printer.printImage(Image.open('gfx/' + imageName), True)
+                printer.feed(3)
                 # tap(isPlayning)  # Tap triggered (button released)
                 tapEnable = False  # Disable tap and hold
                 holdEnable = False
