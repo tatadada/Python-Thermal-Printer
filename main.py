@@ -173,7 +173,7 @@ while (True):
                 # else:
                 #     isPlayning = True
 
-                currentNumber = random.randint(0, 7)
+                currentNumber = random.randint(0, 9)
                 imageName = "image" + str(currentNumber) + ".png"
                 printer.print(imageName)
                 printer.feed(3)
